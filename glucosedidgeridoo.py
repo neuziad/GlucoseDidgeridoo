@@ -1,8 +1,8 @@
 from pydexcom import Dexcom
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
 import mido
 import argparse
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Dexcom Glucose to MIDI")
@@ -25,7 +25,7 @@ release = args.release
 if args.list_ports:
     print("======== Available MIDI ports ========")
     for port in mido.get_output_names():
-        print(f"'{port}'")
+        print(f'{port}')
     print("======================================")
     exit()
 
