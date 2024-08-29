@@ -1,8 +1,0 @@
-# You will need to create your own .env file with the following variables:
-# * DEXCOM_USERNAME: Your Dexcom username
-# * DEXCOM_PASSWORD: Your Dexcom password
-# * PORT: The MIDI port the musical data will be sent to: (default: "Microsoft GS Wavetable Synth 0")
-# * INTERVAL # The length of the drone generated in seconds (default: 8, although your Dexcom updates every 300)
-# * SYNTH_RELEASE # The length of the selected synth's release envelope in milliseconds (Adjusting this will allow
-#   for a more continuous and seamless drone with every updated note. )
-.env

@@ -1,27 +1,33 @@
 from pydexcom import Dexcom
-import os
-from dotenv import load_dotenv
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 import mido
-load_dotenv()
+import argparse
 
-# Importing Dexcom user information for credentials
-username = os.getenv("DEXCOM_USERNAME")
-password = os.getenv("DEXCOM_PASSWORD")
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description="Dexcom Glucose to MIDI")
+parser.add_argument("--username", type=str, required=True, help="Dexcom username")
+parser.add_argument("--password", type=str, required=True, help="Dexcom password")
+parser.add_argument("--port", type=str, default="Microsoft GS Wavetable Synth 0", help="MIDI port data is sent to (written in quotes)")
+parser.add_argument("--interval", type=int, default=8, help="Interval between glucose readings recorded (in seconds)")
+parser.add_argument("--release", type=int, default=10, help="Release time of synthesizer (in milliseconds)")
+parser.add_argument('--list-ports', action='store_true', help='List available MIDI output ports')
+args = parser.parse_args()
 
-# Importing settings for script from .env file
-port_used = os.getenv("PORT") # MIDI port used for output
-interval = int(os.getenv("INTERVAL")) # Interval between glucose readings recorded (in seconds)
-release = int(os.getenv("SYNTH_RELEASE")) # Release time of synthesizer (in milliseconds)
+# Variables from command-line arguments
+username = args.username
+password = args.password
+port_used = args.port
+interval = args.interval
+release = args.release
 
-# Default options for non-Dexcom settings
-if port_used == None:
-    port_used = "Microsoft GS Wavetable Synth 0"
-if interval == None:
-    interval = 8
-if release == None:
-    release = 10
+# List ports option
+if args.list_ports:
+    print("======== Available MIDI ports ========")
+    for port in mido.get_output_names():
+        print(f"'{port}'")
+    print("======================================")
+    exit()
 
 # Open virtual MIDI port
 print(f"Starting script...")
