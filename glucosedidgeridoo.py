@@ -1,17 +1,19 @@
 from pydexcom import Dexcom
 import time
 import mido
+from mido import MidiFile, MidiTrack, Message
 import argparse
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # Parse command-line arguments
-parser = argparse.ArgumentParser(description="Dexcom Glucose to MIDI")
+parser = argparse.ArgumentParser(description="Glucose Digeridoo: Dexcom Glucose to MIDI")
 parser.add_argument("--username", type=str, required=True, help="Dexcom username")
 parser.add_argument("--password", type=str, required=True, help="Dexcom password (must be written in single quotes)")
 parser.add_argument("--port", type=str, default="Microsoft GS Wavetable Synth 0", help="MIDI port data is sent to (must be written in single quotes)")
 parser.add_argument("--interval", type=int, default=8, help="Interval between glucose readings recorded (in seconds)")
 parser.add_argument("--release", type=int, default=10, help="Release time of synthesizer (in milliseconds)")
-parser.add_argument('--list-ports', action='store_true', help='List available MIDI output ports')
+parser.add_argument("--list-ports", action='store_true', help='List available MIDI output ports (optional)')
+parser.add_argument("--output-midi", type=str, help='Path to save the generated MIDI file (optional)')
 args = parser.parse_args()
 
 # Variables from command-line arguments
@@ -20,6 +22,7 @@ password = args.password
 port_used = args.port
 interval = args.interval
 release = args.release
+output_midi = args.output_midi
 
 # List ports option
 if args.list_ports:
@@ -36,6 +39,12 @@ midi_out = mido.open_output(port_used)
 # Retrieve information from API and set up scheduler
 dexcom = Dexcom(username=username, password=password, ous=True)
 scheduler = BackgroundScheduler()
+
+# Create new MIDI file and track for saving
+if output_midi:
+    midi_file = MidiFile()
+    midi_track = MidiTrack()
+    midi_file.tracks.append(midi_track)
 
 # Function that maps glucose readings to MIDI notes
 def data_to_midi(glucose_value):
@@ -114,6 +123,9 @@ def fetch_glucose(counter=[-1]):
 
     for note in notes:
         midi_out.send(mido.Message('note_on', note=note, velocity=64))
+        if output_midi:
+            midi_track.append(Message('note_on', note=note, velocity=64, time=0))  # Add to MIDI file
+            midi_track.append(Message('note_off', note=note, velocity=64, time=int(release)))  # Add to MIDI file
 
     time.sleep(interval - (release/1000))
 
@@ -138,3 +150,6 @@ if __name__ == "__main__":
         print(f"================= END INFO =================")
         print("Stopping script...")
         stop_scheduler()
+        if output_midi:
+            midi_file.save(output_midi)
+            print(f"MIDI file saved as {output_midi}")
