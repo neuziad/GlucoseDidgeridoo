@@ -37,7 +37,6 @@ python glucosedidgeridoo.py --username [DEXCOM_EMAIL] --password '[DEXCOM_PASSWO
 * Args implementation
   * Chord customisation for each trend
 * Self-generate virtual MIDI port
-* Generate MIDI file of generated notes
 * Improved error handling
 * Save session to MIDI
 * Save log
