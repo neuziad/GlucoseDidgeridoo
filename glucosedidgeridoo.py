@@ -7,8 +7,8 @@ import argparse
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="Dexcom Glucose to MIDI")
 parser.add_argument("--username", type=str, required=True, help="Dexcom username")
-parser.add_argument("--password", type=str, required=True, help="Dexcom password")
-parser.add_argument("--port", type=str, default="Microsoft GS Wavetable Synth 0", help="MIDI port data is sent to (written in quotes)")
+parser.add_argument("--password", type=str, required=True, help="Dexcom password (must be written in single quotes)")
+parser.add_argument("--port", type=str, default="Microsoft GS Wavetable Synth 0", help="MIDI port data is sent to (must be written in single quotes)")
 parser.add_argument("--interval", type=int, default=8, help="Interval between glucose readings recorded (in seconds)")
 parser.add_argument("--release", type=int, default=10, help="Release time of synthesizer (in milliseconds)")
 parser.add_argument('--list-ports', action='store_true', help='List available MIDI output ports')

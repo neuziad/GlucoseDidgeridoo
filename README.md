@@ -13,10 +13,10 @@ This software can be used to generate sonifications of your glucose trend in the
 3. Simply run the script with your Dexcom log-in information:
 
 ```bash
-python glucosedidgeridoo.py --username [DEXCOM_EMAIL] --password '[DEXCOM_PASSWORD]'
+python glucosedidgeridoo.py [--username DEXCOM_EMAIL] [--password 'DEXCOM_PASSWORD']
 ```
 
-Replace [DEXCOM_EMAIL] and [DEXCOM_PASSWORD] with the respective email and password associated with your Dexcom account. Password must be in single quotes.
+Replace DEXCOM_EMAIL and DEXCOM_PASSWORD with the respective email and password associated with your Dexcom account. Password must be in single quotes.
 
 Additionally, you can specify the MIDI port the data is sent to, the length between each data point recorded and the release envelope of the synth you're using with these arguments:
 
