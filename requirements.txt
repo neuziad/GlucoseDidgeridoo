@@ -1,0 +1,4 @@
+pydexcom
+apscheduler
+python-rtmidi
+python-dotenv
