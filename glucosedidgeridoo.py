@@ -46,12 +46,12 @@ seconds_per_beat = 60 / bpm
 bar_duration = seconds_per_beat * 4  # Assuming 4/4 time signature
 
 # Create a new MIDI file and track if output_midi is specified
-if output_midi:
-    ticks_per_beat = 480  # Default ticks per beat
-    midi_file = MidiFile(ticks_per_beat=ticks_per_beat)
-    midi_track = MidiTrack()
-    midi_file.tracks.append(midi_track)
-    midi_track.append(mido.MetaMessage('set_tempo', tempo=bpm2tempo(bpm)))
+# if output_midi:
+ticks_per_beat = 480  # Default ticks per beat
+midi_file = MidiFile(ticks_per_beat=ticks_per_beat)
+midi_track = MidiTrack()
+midi_file.tracks.append(midi_track)
+midi_track.append(mido.MetaMessage('set_tempo', tempo=bpm2tempo(bpm)))
 
 # Function that maps glucose readings to MIDI notes
 def data_to_midi(glucose_value):
